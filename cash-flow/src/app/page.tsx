@@ -1,6 +1,5 @@
-import Image from "next/image";
-import { ModeToggle } from "@/components/mode-toggle"
-import OPT from "@/components/Home/opt"
+import { ModeToggle } from "@/components/mode-toggle";
+import OPT from "@/components/Home/opt";
 
 export default function Home() {
   return (
@@ -107,9 +106,7 @@ export default function Home() {
         <ModeToggle />
       </main>
       <footer className="flex items-center justify-center">
-        <div className="p-4">
-          @ 2025 Cash Flow
-        </div>
+        <div className="p-4">@ 2025 Cash Flow</div>
       </footer>
     </div>
   );

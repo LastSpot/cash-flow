@@ -45,7 +45,7 @@ export default function OPT() {
 
       checkOTP();
     }
-  }, [value]);
+  }, [value, router]);
 
   return (
     <Form {...form}>
