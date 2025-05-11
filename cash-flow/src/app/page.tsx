@@ -1,11 +1,6 @@
 import Image from "next/image";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/input-otp"
 import { ModeToggle } from "@/components/mode-toggle"
+import OPT from "@/components/Home/opt"
 
 export default function Home() {
   return (
@@ -108,23 +103,11 @@ export default function Home() {
     // </div>
     <div className="grid grid-rows-[1fr_auto] min-h-screen">
       <main className="flex flex-col items-center justify-center gap-4">
-        <InputOTP maxLength={6}>
-          <InputOTPGroup>
-            <InputOTPSlot index={0} />
-            <InputOTPSlot index={1} />
-            <InputOTPSlot index={2} />
-          </InputOTPGroup>
-          <InputOTPSeparator />
-          <InputOTPGroup>
-            <InputOTPSlot index={3} />
-            <InputOTPSlot index={4} />
-            <InputOTPSlot index={5} />
-          </InputOTPGroup>
-        </InputOTP>
+        <OPT />
         <ModeToggle />
       </main>
       <footer className="flex items-center justify-center">
-        <div>
+        <div className="p-4">
           @ 2025 Cash Flow
         </div>
       </footer>
