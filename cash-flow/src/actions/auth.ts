@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-const loginSchema = z.object({
+const signinSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
@@ -37,12 +37,15 @@ export async function verifyOTP(otp: string) {
   };
 }
 
-export async function login(formData: FormData) {
+export async function signin(formData: FormData) {
   const supabase = await createClient();
-  const validatedFields = loginSchema.safeParse({
+  const validatedFields = signinSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });
+
+  console.log(validatedFields);
+  console.log(formData);
   if (!validatedFields.success) {
     return "Missing fields. Failed to Login.";
   }
@@ -55,7 +58,7 @@ export async function login(formData: FormData) {
 
   const { error } = await supabase.auth.signInWithPassword(data);
   if (error) {
-    return error.message;
+    return error;
   }
 
   revalidatePath("/dashboard");
@@ -85,7 +88,6 @@ export async function signup(formData: FormData) {
     options: {
       data: {
         display_name: email?.split("@")[0] as string,
-        avatar_url: "",
       },
     },
   });

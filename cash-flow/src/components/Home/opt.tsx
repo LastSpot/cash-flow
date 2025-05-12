@@ -25,6 +25,7 @@ export default function OPT() {
       const checkOTP = async () => {
         const verify = await verifyOTP(value);
         if (verify.success) {
+          localStorage.setItem("opt", value);
           if (verify.role === "admin") {
             toast("Welcome Admin", {
               description: "You have successfully logged in",
