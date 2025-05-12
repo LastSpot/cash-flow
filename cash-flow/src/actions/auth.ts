@@ -16,6 +16,30 @@ const signupSchema = z.object({
   confirmPassword: z.string().min(8),
 });
 
+export type signinState = {
+  error?: {
+    email?: string[];
+    password?: string[];
+  };
+  message?: string | null;
+};
+
+export type signupState = {
+  error?: {
+    email?: string[];
+    password?: string[];
+    confirmPassword?: string[];
+  };
+  message?: string | null;
+};
+
+export type User = {
+  id: string;
+  email: string;
+  display_name: string;
+  role: string;
+};
+
 export async function verifyOTP(otp: string) {
   const adminSecret = process.env.ADMIN_SECRET;
   const employeeSecret = process.env.EMPLOYEE_SECRET;
@@ -47,7 +71,7 @@ export async function signin(formData: FormData) {
   console.log(validatedFields);
   console.log(formData);
   if (!validatedFields.success) {
-    return "Missing fields. Failed to Login.";
+    throw new Error("Missing fields. Failed to Login.");
   }
 
   const { email, password } = validatedFields.data;
@@ -58,11 +82,10 @@ export async function signin(formData: FormData) {
 
   const { error } = await supabase.auth.signInWithPassword(data);
   if (error) {
-    return error;
+    throw new Error(error.message);
   }
 
   revalidatePath("/dashboard");
-  redirect("/dashboard");
 }
 
 export async function signup(formData: FormData) {
@@ -96,7 +119,6 @@ export async function signup(formData: FormData) {
   }
 
   revalidatePath("/dashboard");
-  redirect("/dashboard");
 }
 
 export async function signout() {
@@ -104,4 +126,15 @@ export async function signout() {
   await supabase.auth.signOut();
   revalidatePath("/", "layout");
   redirect("/");
+}
+
+export async function getCurrentUser() {
+  const supabase = await createClient();
+  const { data: user } = await supabase.auth.getUser();
+  return {
+    id: user.user?.id,
+    email: user.user?.email,
+    display_name: user.user?.user_metadata.display_name,
+    role: user.user?.user_metadata.role,
+  };
 }

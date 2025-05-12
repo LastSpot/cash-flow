@@ -4,6 +4,7 @@ import Link from "next/link";
 import Form from "next/form";
 import { cn } from "@/lib/utils";
 import { signin } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,18 +17,27 @@ export function SigninForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+
   const onSubmit = async (data: FormData) => {
-    console.log(data);
-    const result = await signin(data);
-    if (typeof result === "string") {
-      toast.error("Sigin failed", {
-        description: result,
+    try {
+      const result = await signin(data);
+      if (typeof result === "string") {
+        toast.error("Signin failed", {
+          description: result,
+        });
+        return;
+      }
+      toast.success("Signin successful", {
+        description: "Welcome back!",
       });
-      return;
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error("An unexpected error occurred", {
+        description:
+          error instanceof Error ? error.message : "Please try again",
+      });
     }
-    toast.success("Sigin successful", {
-      description: "Welcome back!",
-    });
   };
 
   return (
@@ -69,7 +79,7 @@ export function SigninForm({
                   />
                 </div>
                 <Button type="submit" className="w-full">
-                  Signin
+                  "Sign in"
                 </Button>
               </div>
               <div className="flex items-center justify-center gap-2 text-center text-sm">

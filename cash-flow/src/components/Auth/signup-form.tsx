@@ -4,6 +4,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Form from "next/form";
 import { signup } from "@/actions/auth";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,22 +12,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "../mode-toggle";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
+
   const onSubmit = async (data: FormData) => {
-    const result = await signup(data);
-    if (typeof result === "string") {
-      toast.error("Signup failed", {
-        description: result,
+    try {
+      const result = await signup(data);
+      if (typeof result === "string") {
+        toast.error("Signup failed", {
+          description: result,
+        });
+        return;
+      }
+      toast.success("Signup successful", {
+        description: "Welcome to the app!",
       });
-      return;
+      router.push("/dashboard");
+    } catch (error) {
+      toast.error("An unexpected error occurred", {
+        description:
+          error instanceof Error ? error.message : "Please try again",
+      });
     }
-    toast.success("Signup successful", {
-      description: "Welcome to the app!",
-    });
   };
 
   return (
@@ -74,7 +86,7 @@ export function SignupForm({
                   />
                 </div>
                 <Button type="submit" className="w-full">
-                  Signup
+                  "Signup"
                 </Button>
               </div>
               <div className="flex items-center justify-center gap-2 text-center text-sm">
