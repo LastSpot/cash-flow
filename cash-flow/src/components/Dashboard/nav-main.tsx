@@ -1,40 +1,98 @@
 "use client";
 
-import { MailIcon, PlusCircleIcon, type LucideIcon } from "lucide-react";
+import {
+  LayoutDashboardIcon,
+  NotebookText,
+  ChevronRight,
+  Building,
+  Settings2,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import {
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-  }[];
-}) {
+export function NavMain() {
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
-          {items.map((item) => (
-            <Link href={item.url} key={item.title}>
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+          {/* Dashboard */}
+          <Link href="/dashboard">
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Dashboard">
+                <LayoutDashboardIcon />
+                <span>Dashboard</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </Link>
+          {/* Booking */}
+          <Collapsible
+            asChild
+            defaultOpen={false}
+            className="group/collapsible"
+          >
+            <SidebarMenuItem>
+              <CollapsibleTrigger asChild>
+                <SidebarMenuButton tooltip="Booking">
+                  <NotebookText />
+                  <span>Booking</span>
+                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
-              </SidebarMenuItem>
-            </Link>
-          ))}
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <SidebarMenuSub>
+                  {/* Revenue */}
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="/dashboard/revenue">
+                        <span>Revenue</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                  {/* Expense */}
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton asChild>
+                      <Link href="/dashboard/expense">
+                        <span>Expense</span>
+                      </Link>
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
+              </CollapsibleContent>
+            </SidebarMenuItem>
+          </Collapsible>
+          {/* Members */}
+          <Link href="/dashboard/members">
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Members">
+                <Building />
+                <span>Members</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </Link>
+          {/* Settings */}
+          <Link href="/dashboard/settings">
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip="Settings">
+                <Settings2 />
+                <span>Settings</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </Link>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
