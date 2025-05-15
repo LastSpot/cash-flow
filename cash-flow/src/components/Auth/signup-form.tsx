@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "../mode-toggle";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+// import { Loader2 } from "lucide-react";
 
 export function SignupForm({
   className,
