@@ -1,7 +1,7 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ColumnDef, FilterFn } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -12,10 +12,35 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DataTableColumnHeader } from "../column-header";
-import { Revenue } from "@/actions/data";
+import { DataTableColumnHeader } from "./column-header";
+import { Data } from "@/actions/data";
+import Link from "next/link";
 
-export const columns: ColumnDef<Revenue>[] = [
+// Define the date filter function
+const dateFilterFn: FilterFn<any> = (row, columnId, value) => {
+  if (!value || (value.month === "all" && value.year === "all")) return true;
+
+  const dateStr = row.getValue(columnId) as string;
+  const [rowYear, rowMonth] = dateStr.split("-");
+
+  if (value.month !== "all" && value.year !== "all") {
+    return rowMonth === value.month && rowYear === value.year;
+  } else if (value.month !== "all") {
+    return rowMonth === value.month;
+  } else if (value.year !== "all") {
+    return rowYear === value.year;
+  }
+
+  return true;
+};
+
+const categoryFilterFn: FilterFn<any> = (row, columnId, value) => {
+  if (!value || value === "all") return true;
+  const category = row.getValue(columnId) as string;
+  return category === value;
+};
+
+export const columns: ColumnDef<Data>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -43,6 +68,7 @@ export const columns: ColumnDef<Revenue>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Date" />
     ),
+    filterFn: dateFilterFn,
   },
   {
     accessorKey: "amount",
@@ -61,23 +87,16 @@ export const columns: ColumnDef<Revenue>[] = [
   },
   {
     accessorKey: "source",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Source
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Source" />
+    ),
   },
   {
     accessorKey: "category",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Category" />
     ),
+    filterFn: categoryFilterFn,
   },
   {
     accessorKey: "note",
@@ -104,8 +123,12 @@ export const columns: ColumnDef<Revenue>[] = [
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>View details</DropdownMenuItem>
+            <Link href={`/dashboard/revenue/edit/${item.id}`}>
+              <DropdownMenuItem>Edit</DropdownMenuItem>
+            </Link>
+            <Link href={`/dashboard/revenue/${item.id}`}>
+              <DropdownMenuItem>View details</DropdownMenuItem>
+            </Link>
             <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

@@ -29,8 +29,10 @@ import {
 } from "@/components/ui/table";
 
 // Custom components
-import { DataTablePagination } from "../table-pagination";
-import { DataTableViewOptions } from "../view-options";
+import { DataTablePagination } from "./table-pagination";
+import { DataTableViewOptions } from "./view-options";
+import { MonthYearFilter } from "./date-filter";
+import { CategoryFilter } from "./category-filter";
 
 // Component interface
 interface DataTableProps<TData, TValue> {
@@ -44,13 +46,16 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
   const isMobile = useIsMobile();
 
+  // Source filter state with debounce
+  const [filterValue, setFilterValue] = useState("");
+
   // State for table features
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  // Table configuration
+  // Table configuration with custom filter
   const table = useReactTable({
     data,
     columns,
@@ -73,6 +78,16 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  // Debounced source filter
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      table.getColumn("source")?.setFilterValue(filterValue);
+    }, 400);
+
+    return () => clearTimeout(timeout);
+  }, [filterValue, table]);
+
+  // Mobile responsiveness
   useEffect(() => {
     if (isMobile) {
       setColumnVisibility((prev) => ({
@@ -90,16 +105,18 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       {/* Table controls */}
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 gap-2">
         <Input
           placeholder="Filter by source..."
-          value={(table.getColumn("source")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("source")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
+          value={filterValue}
+          onChange={(event) => setFilterValue(event.target.value)}
+          className="max-w-sm hidden md:block"
         />
-        <DataTableViewOptions table={table} />
+        <div className="ml-auto flex items-center gap-2">
+          <MonthYearFilter table={table} data={data} />
+          <CategoryFilter table={table} data={data} />
+          <DataTableViewOptions table={table} />
+        </div>
       </div>
 
       {/* Table */}

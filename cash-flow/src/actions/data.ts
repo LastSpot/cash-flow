@@ -3,7 +3,7 @@
 // import { createClient } from "@/lib/supabase/server";
 import { z } from "zod";
 
-const revenueSchema = z.object({
+const dataSchema = z.object({
   id: z.string(),
   date: z.string().date(),
   source: z.string(),
@@ -12,4 +12,4 @@ const revenueSchema = z.object({
   note: z.string().nullish(),
 });
 
-export type Revenue = z.infer<typeof revenueSchema>;
+export type Data = z.infer<typeof dataSchema>;

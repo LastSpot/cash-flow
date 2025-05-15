@@ -1,9 +1,9 @@
-import { columns } from "@/components/Booking/Revenue/revenue-columns";
-import { DataTable } from "@/components/Booking/Revenue/revenue-table";
+import { columns } from "@/components/Booking/table-columns";
+import { DataTable } from "@/components/Booking/data-table";
 
-import { Revenue } from "@/actions/data";
+import { Data } from "@/actions/data";
 
-async function getData(): Promise<Revenue[]> {
+async function getData(): Promise<Data[]> {
   // Fetch data from your API here.
   return [
     {
@@ -414,6 +414,7 @@ export default async function RevenuePage() {
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+      <h1 className="text-2xl font-bold">Revenue Table</h1>
       <DataTable columns={columns} data={data} />
     </main>
   );
