@@ -1,7 +1,15 @@
 "use client";
 
 // import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, Cell, LabelList } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Cell,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
@@ -17,49 +25,74 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", visitors: 186 },
-  { month: "February", visitors: 205 },
-  { month: "March", visitors: -207 },
-  { month: "April", visitors: 173 },
-  { month: "May", visitors: -209 },
-  { month: "June", visitors: 214 },
-  { month: "July", visitors: 231 },
-  { month: "August", visitors: -342 },
-  { month: "September", visitors: 564 },
-  { month: "October", visitors: -675 },
-  { month: "November", visitors: -123 },
-  { month: "December", visitors: -100 },
-];
+import { ProfitData } from "@/actions/data";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  profit: {
+    label: "Profit",
   },
 } satisfies ChartConfig;
 
-export function ProfitChart() {
+export function ProfitChart({ data }: { data: ProfitData[] }) {
+  const currentYear = new Date().getFullYear();
+  const isMobile = useIsMobile();
+
   return (
     <Card className="@container/cardflex w-full h-[33vh] flex flex-col">
       <CardHeader className="pb-1">
         <CardTitle>Profit Chart</CardTitle>
-        <CardDescription>January - December 2024</CardDescription>
+        <CardDescription>January - December {currentYear}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-1">
         <div className="w-full h-full">
           <ChartContainer config={chartConfig} className="!aspect-auto h-full">
-            <BarChart accessibilityLayer data={chartData}>
+            <BarChart
+              accessibilityLayer
+              data={data}
+              barSize={isMobile ? 15 : 30}
+            >
               <CartesianGrid vertical={false} />
               <ChartTooltip
                 cursor={false}
                 content={<ChartTooltipContent hideLabel hideIndicator />}
               />
-              <Bar dataKey="visitors">
-                <LabelList position="top" dataKey="month" fillOpacity={1} />
-                {chartData.map((item) => (
+              <XAxis
+                dataKey="month"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+                tickFormatter={(value) => value.slice(0, 3)}
+                tickMargin={8}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: isMobile ? 10 : 12 }}
+                tickFormatter={(value) => `$${value}`}
+                tickMargin={8}
+                width={40}
+                domain={[
+                  (dataMin: number) => Math.min(0, Math.floor(dataMin * 1.2)),
+                  (dataMax: number) => Math.floor(dataMax * 1.2),
+                ]}
+              />
+              <Bar
+                dataKey="profit"
+                animationDuration={500}
+                animationEasing="ease-in-out"
+              >
+                <LabelList
+                  position="top"
+                  dataKey="profit"
+                  fillOpacity={1}
+                  fontSize={isMobile ? 10 : 12}
+                  offset={5}
+                />
+                {data.map((item) => (
                   <Cell
                     key={item.month}
-                    fill={item.visitors > 0 ? "MediumSeaGreen" : "red"}
+                    fill={item.profit > 0 ? "MediumSeaGreen" : "red"}
                   />
                 ))}
               </Bar>

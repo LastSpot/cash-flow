@@ -17,45 +17,34 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-  { month: "July", desktop: 913, mobile: 213 },
-  { month: "August", desktop: 765, mobile: 546 },
-  { month: "September", desktop: 345, mobile: 546 },
-  { month: "October", desktop: 453, mobile: 213 },
-  { month: "November", desktop: 879, mobile: 657 },
-  { month: "December", desktop: 677, mobile: 342 },
-];
+import { OverviewData } from "@/actions/data";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
+  revenue: {
+    label: "Revenue",
     color: "MediumSeaGreen",
   },
-  mobile: {
-    label: "Mobile",
+  expenses: {
+    label: "Expenses",
     color: "red",
   },
 } satisfies ChartConfig;
 
-export function OverviewChart() {
+export function OverviewChart({ data }: { data: OverviewData[] }) {
+  const currentYear = new Date().getFullYear();
+
   return (
     <Card className="@container/cardflex w-full h-[50vh]">
       <CardHeader>
         <CardTitle>Overview Chart</CardTitle>
-        <CardDescription>January - December 2024</CardDescription>
+        <CardDescription>January - December {currentYear}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
         <div className="w-full h-full">
           <ChartContainer config={chartConfig} className="!aspect-auto h-full">
             <LineChart
               accessibilityLayer
-              data={chartData}
+              data={data}
               margin={{
                 left: 12,
                 right: 12,
@@ -77,16 +66,16 @@ export function OverviewChart() {
               />
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <Line
-                dataKey="desktop"
+                dataKey="revenue"
                 type="monotone"
-                stroke="var(--color-desktop)"
+                stroke="var(--color-revenue)"
                 strokeWidth={2}
                 dot={false}
               />
               <Line
-                dataKey="mobile"
+                dataKey="expenses"
                 type="monotone"
-                stroke="var(--color-mobile)"
+                stroke="var(--color-expenses)"
                 strokeWidth={2}
                 dot={false}
               />
