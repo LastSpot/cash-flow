@@ -51,6 +51,10 @@ export function ProfitChart({ data }: { data: ProfitData[] }) {
               accessibilityLayer
               data={data}
               barSize={isMobile ? 15 : 30}
+              margin={{
+                left: 40,
+                right: 20,
+              }}
             >
               <CartesianGrid vertical={false} />
               <ChartTooltip
@@ -69,7 +73,9 @@ export function ProfitChart({ data }: { data: ProfitData[] }) {
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: isMobile ? 10 : 12 }}
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) =>
+                  `$${new Intl.NumberFormat().format(value)}`
+                }
                 tickMargin={8}
                 width={40}
                 domain={[
@@ -82,13 +88,13 @@ export function ProfitChart({ data }: { data: ProfitData[] }) {
                 animationDuration={500}
                 animationEasing="ease-in-out"
               >
-                <LabelList
+                {/* <LabelList
                   position="top"
                   dataKey="profit"
                   fillOpacity={1}
                   fontSize={isMobile ? 10 : 12}
                   offset={5}
-                />
+                /> */}
                 {data.map((item) => (
                   <Cell
                     key={item.month}

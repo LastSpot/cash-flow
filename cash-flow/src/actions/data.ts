@@ -877,7 +877,7 @@ const mockOverviewData = [
 ];
 
 const mockProfitData = [
-  { month: "January", profit: 186 },
+  { month: "January", profit: 123123 },
   { month: "February", profit: 205 },
   { month: "March", profit: -207 },
   { month: "April", profit: 173 },

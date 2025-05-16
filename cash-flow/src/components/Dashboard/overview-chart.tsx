@@ -46,8 +46,8 @@ export function OverviewChart({ data }: { data: OverviewData[] }) {
               accessibilityLayer
               data={data}
               margin={{
-                left: 12,
-                right: 12,
+                left: 40,
+                right: 20,
               }}
             >
               <CartesianGrid vertical={false} />
@@ -62,7 +62,9 @@ export function OverviewChart({ data }: { data: OverviewData[] }) {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) =>
+                  `$${new Intl.NumberFormat().format(value)}`
+                }
               />
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
               <Line
