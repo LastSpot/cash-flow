@@ -8,26 +8,27 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getYtdExpenseData } from "@/actions/data";
 
-export async function YtdExpense() {
-  const ytdExpenseData = await getYtdExpenseData();
-
+export async function YtdExpense({
+  data,
+}: {
+  data: { expenses: number; growthRate: number };
+}) {
   return (
     <Card className="@container/card">
       <CardHeader className="relative">
         <CardDescription>YTD Expense</CardDescription>
         <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-          ${ytdExpenseData.expenses}
+          ${data.expenses}
         </CardTitle>
         <div className="absolute right-4 top-4">
           <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-            {ytdExpenseData.growthRate > 0 ? (
-              <TrendingDownIcon className="size-3" />
+            {data.growthRate < 0 ? (
+              <TrendingDownIcon className="size-3 text-green-500" />
             ) : (
-              <TrendingUpIcon className="size-3" />
+              <TrendingUpIcon className="size-3 text-red-500" />
             )}
-            {ytdExpenseData.growthRate}%
+            {data.growthRate}%
           </Badge>
         </div>
       </CardHeader>

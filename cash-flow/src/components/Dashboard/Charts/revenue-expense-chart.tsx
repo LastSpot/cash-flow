@@ -1,6 +1,5 @@
 "use client";
 
-// import { TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 
 import {
@@ -17,7 +16,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { OverviewData } from "@/actions/data";
+import { RevenueExpenseData } from "@/actions/data";
 
 const chartConfig = {
   revenue: {
@@ -30,7 +29,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function OverviewChart({ data }: { data: OverviewData[] }) {
+export function RevenueExpenseChart({ data }: { data: RevenueExpenseData[] }) {
   const currentYear = new Date().getFullYear();
 
   return (
