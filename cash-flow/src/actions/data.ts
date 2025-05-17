@@ -88,6 +88,83 @@ export const getMonthlyData = async () => {
     console.error(error);
   }
 
+  if (!data || data.length === 0) {
+    return [
+      {
+        month: "January",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "February",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "March",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "April",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "May",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "June",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "July",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "August",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "September",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "October",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "November",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+      {
+        month: "December",
+        revenue: 0,
+        expenses: 0,
+        profit: 0,
+      },
+    ];
+  }
+
   const monthly_data = (data || []).map((item) => {
     return {
       month: monthNumberToName[item.month as keyof typeof monthNumberToName],
@@ -114,6 +191,17 @@ export const getYtdData = async () => {
 
   if (revenueError) {
     console.error(revenueError);
+  }
+
+  if (!revenueData || revenueData.length === 0) {
+    return {
+      revenue: 0,
+      expenses: 0,
+      profit: 0,
+      revenueGrowthRate: 0,
+      expenseGrowthRate: 0,
+      profitGrowthRate: 0,
+    };
   }
 
   const { data: revenueGrowthData, error: revenueGrowthError } = await supabase
