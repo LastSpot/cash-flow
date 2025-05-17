@@ -1,6 +1,7 @@
 "use server";
 
-// import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser, User } from "./auth";
 import { z } from "zod";
 
 const formatNumber = (value: number): string => {
@@ -908,12 +909,46 @@ const mockDebtData = [
   { year: 2024, debt: 4532 },
 ];
 
-export const getRevenueData = async () => {
-  return mockRevenueData;
+export const getRevenueData = async (): Promise<Data[]> => {
+  console.time("getRevenueDataDuration");
+
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  let { data, error } = await supabase
+    .from("finance")
+    .select("id, date, source, category, amount, note")
+    .eq("user_id", user.id)
+    .eq("type", "revenue")
+    .order("date", { ascending: false });
+
+  if (error) {
+    console.error(error);
+  }
+
+  console.timeEnd("getRevenueDataDuration");
+  return data || [];
 };
 
 export const getExpenseData = async () => {
-  return mockExpenseData;
+  console.time("getExpenseDataDuration");
+
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  let { data, error } = await supabase
+    .from("finance")
+    .select("id, date, source, category, amount, note")
+    .eq("user_id", user.id)
+    .eq("type", "expense")
+    .order("date", { ascending: false });
+
+  if (error) {
+    console.error(error);
+  }
+
+  console.timeEnd("getExpenseDataDuration");
+  return data || [];
 };
 
 export const getOverviewData = async () => {

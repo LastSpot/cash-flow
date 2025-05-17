@@ -68,8 +68,6 @@ export async function signin(formData: FormData) {
     password: formData.get("password"),
   });
 
-  console.log(validatedFields);
-  console.log(formData);
   if (!validatedFields.success) {
     throw new Error("Missing fields. Failed to Login.");
   }

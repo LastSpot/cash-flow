@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Link from "next/link";
 
 // Table imports
 import {
@@ -27,7 +28,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-
+import { Button } from "@/components/ui/button";
 // Custom components
 import { DataTablePagination } from "./table-pagination";
 import { DataTableViewOptions } from "./view-options";
@@ -116,6 +117,11 @@ export function DataTable<TData, TValue>({
           <MonthYearFilter table={table} data={data} />
           <CategoryFilter table={table} data={data} />
           <DataTableViewOptions table={table} />
+          <Link href="/dashboard/create">
+            <Button size="sm" className="h-8">
+              Create
+            </Button>
+          </Link>
         </div>
       </div>
 

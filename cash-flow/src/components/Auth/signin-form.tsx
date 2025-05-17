@@ -6,12 +6,12 @@ import { cn } from "@/lib/utils";
 import { signin } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "../mode-toggle";
 import { toast } from "sonner";
+import { AuthButton } from "./auth-button";
 
 export function SigninForm({
   className,
@@ -78,9 +78,9 @@ export function SigninForm({
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  "Sign in"
-                </Button>
+                <AuthButton data="signin" className="w-full">
+                  Sign in
+                </AuthButton>
               </div>
               <div className="flex items-center justify-center gap-2 text-center text-sm">
                 <ModeToggle />

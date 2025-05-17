@@ -14,9 +14,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { signout } from "@/actions/auth";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { AuthButton } from "@/components/Auth/auth-button";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -26,8 +25,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <Link href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground dark:bg-white">
+                  <Command className="size-4 dark:text-black" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">Acme Inc</span>
@@ -44,7 +43,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         {/* <NavUser user={data.user} /> */}
-        <Button onClick={async () => await signout()}>Signout</Button>
+        <AuthButton data="signout">Signout</AuthButton>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

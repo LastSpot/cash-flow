@@ -1,13 +1,6 @@
 import { TrendingDownIcon, TrendingUpIcon } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { YtdRevenue } from "@/components/Dashboard/ytd-revenue";
 import { YtdExpense } from "@/components/Dashboard/ytd-expense";
 import { YtdProfit } from "@/components/Dashboard/ytd-profit";

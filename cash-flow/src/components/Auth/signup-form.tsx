@@ -6,13 +6,12 @@ import Form from "next/form";
 import { signup } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ModeToggle } from "../mode-toggle";
 import { toast } from "sonner";
-// import { Loader2 } from "lucide-react";
+import { AuthButton } from "./auth-button";
 
 export function SignupForm({
   className,
@@ -85,9 +84,9 @@ export function SignupForm({
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  "Signup"
-                </Button>
+                <AuthButton data="signup" className="w-full">
+                  Sign up
+                </AuthButton>
               </div>
               <div className="flex items-center justify-center gap-2 text-center text-sm">
                 <ModeToggle />
