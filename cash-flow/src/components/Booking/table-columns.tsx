@@ -13,11 +13,19 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "./column-header";
-import { Data } from "@/actions/data";
 import Link from "next/link";
 
+type Data = {
+  id: string;
+  date: string;
+  source: string;
+  category: string;
+  amount: number;
+  note: string | null;
+};
+
 // Define the date filter function
-const dateFilterFn: FilterFn<any> = (row, columnId, value) => {
+const dateFilterFn: FilterFn<Data> = (row, columnId, value) => {
   if (!value || (value.month === "all" && value.year === "all")) return true;
 
   const dateStr = row.getValue(columnId) as string;
@@ -34,7 +42,7 @@ const dateFilterFn: FilterFn<any> = (row, columnId, value) => {
   return true;
 };
 
-const categoryFilterFn: FilterFn<any> = (row, columnId, value) => {
+const categoryFilterFn: FilterFn<Data> = (row, columnId, value) => {
   if (!value || value === "all") return true;
   const category = row.getValue(columnId) as string;
   return category === value;

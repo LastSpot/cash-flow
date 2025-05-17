@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardDescription,
-  CardFooter,
+  // CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -22,14 +22,16 @@ export async function YtdExpense({
           ${data.expenses}
         </CardTitle>
         <div className="absolute right-4 top-4">
-          <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
-            {data.growthRate < 0 ? (
-              <TrendingDownIcon className="size-3 text-green-500" />
-            ) : (
-              <TrendingUpIcon className="size-3 text-red-500" />
-            )}
-            {data.growthRate}%
-          </Badge>
+          {data.growthRate !== 0 && (
+            <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
+              {data.growthRate < 0 ? (
+                <TrendingDownIcon className="size-3 text-green-500" />
+              ) : (
+                <TrendingUpIcon className="size-3 text-red-500" />
+              )}
+              {data.growthRate}%
+            </Badge>
+          )}
         </div>
       </CardHeader>
       {/* <CardFooter className="flex-col items-start gap-1 text-sm">

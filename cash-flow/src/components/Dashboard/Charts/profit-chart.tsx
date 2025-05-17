@@ -1,12 +1,11 @@
 "use client";
 
-// import { TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
-  LabelList,
+  // LabelList,
   XAxis,
   YAxis,
 } from "recharts";
@@ -25,7 +24,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ProfitData } from "@/actions/data";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const chartConfig = {
@@ -34,7 +32,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ProfitChart({ data }: { data: ProfitData[] }) {
+export function ProfitChart({
+  data,
+}: {
+  data: {
+    month: string;
+    profit: number;
+  }[];
+}) {
   const currentYear = new Date().getFullYear();
   const isMobile = useIsMobile();
 

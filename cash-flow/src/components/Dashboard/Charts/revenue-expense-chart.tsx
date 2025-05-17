@@ -16,7 +16,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { RevenueExpenseData } from "@/actions/data";
 
 const chartConfig = {
   revenue: {
@@ -29,7 +28,15 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function RevenueExpenseChart({ data }: { data: RevenueExpenseData[] }) {
+export function RevenueExpenseChart({
+  data,
+}: {
+  data: {
+    month: string;
+    revenue: number;
+    expenses: number;
+  }[];
+}) {
   const currentYear = new Date().getFullYear();
 
   return (

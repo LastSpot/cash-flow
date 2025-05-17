@@ -1,8 +1,7 @@
-import { Badge } from "@/components/ui/badge";
 import { YtdRevenue } from "@/components/Dashboard/Cards/ytd-revenue";
 import { YtdExpense } from "@/components/Dashboard/Cards/ytd-expense";
 import { YtdProfit } from "@/components/Dashboard/Cards/ytd-profit";
-import { Debt } from "@/components/Dashboard/debt";
+import { Debt } from "@/components/Dashboard/Cards/debt";
 import { getYtdData } from "@/actions/data";
 
 export async function SummaryCards() {

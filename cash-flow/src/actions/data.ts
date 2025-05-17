@@ -2,41 +2,10 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "./auth";
-import { z } from "zod";
 
 const formatNumber = (value: number): string => {
   return new Intl.NumberFormat("en-US").format(value);
 };
-
-const dataSchema = z.object({
-  id: z.string(),
-  date: z.string().date(),
-  source: z.string(),
-  category: z.string(),
-  amount: z.number(),
-  note: z.string().nullish(),
-});
-
-const revenueExpenseSchema = z.object({
-  month: z.string(),
-  revenue: z.number(),
-  expenses: z.number(),
-});
-
-const profitSchema = z.object({
-  month: z.string(),
-  profit: z.number(),
-});
-
-const debtSchema = z.object({
-  debt: z.number(),
-  growthRate: z.number(),
-});
-
-export type Data = z.infer<typeof dataSchema>;
-export type RevenueExpenseData = z.infer<typeof revenueExpenseSchema>;
-export type ProfitData = z.infer<typeof profitSchema>;
-export type DebtData = z.infer<typeof debtSchema>;
 
 const mockDebtData = [
   { year: 2025, debt: 5433 },
@@ -58,7 +27,7 @@ const monthNumberToName = {
   12: "December",
 };
 
-export const getRevenueData = async (): Promise<Data[]> => {
+export const getRevenueData = async () => {
   const year = new Date().getFullYear();
   const targetDate = `${year}-01-01`;
 
@@ -70,7 +39,7 @@ export const getRevenueData = async (): Promise<Data[]> => {
     .select("id, date, source, category, amount, note")
     .eq("user_id", user.id)
     .eq("type", "revenue")
-    // .gte("date", targetDate)
+    .gte("date", targetDate)
     .order("date", { ascending: false });
 
   if (error) {
@@ -80,15 +49,19 @@ export const getRevenueData = async (): Promise<Data[]> => {
   return data || [];
 };
 
-export const getExpenseData = async (): Promise<Data[]> => {
+export const getExpenseData = async () => {
   const supabase = await createClient();
   const user = await getCurrentUser();
+
+  const year = new Date().getFullYear();
+  const targetDate = `${year}-01-01`;
 
   const { data, error } = await supabase
     .from("finance")
     .select("id, date, source, category, amount, note")
     .eq("user_id", user.id)
     .eq("type", "expense")
+    .gte("date", targetDate)
     .order("date", { ascending: false });
 
   if (error) {

@@ -25,7 +25,7 @@ export function CategoryFilter<TData>({
   // Extract unique categories from data
   const categories = [
     "all",
-    ...new Set((data as any[]).map((item) => item.category)),
+    ...new Set((data as { category: string }[]).map((item) => item.category)),
   ].sort();
   const currentValue =
     (table.getColumn("category")?.getFilterValue() as string) || "all";
