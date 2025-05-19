@@ -24,15 +24,18 @@ interface MonthYearFilterProps<TData> {
   data: TData[];
 }
 
-export function MonthYearFilter<TData>({ table }: MonthYearFilterProps<TData>) {
+export function MonthYearFilter<TData>({
+  table,
+  data,
+}: MonthYearFilterProps<TData>) {
   // Extract unique years from data
-  // const years = Array.from(
-  //   new Set(
-  //     (data as any[]).map((item) => item.date?.split("-")[0]).filter(Boolean)
-  //   )
-  // )
-  //   .sort()
-  //   .reverse();
+  const years = Array.from(
+    new Set(
+      (data as any[]).map((item) => item.date?.split("-")[0]).filter(Boolean)
+    )
+  )
+    .sort()
+    .reverse();
 
   // All months with labels
   const months = [
@@ -51,13 +54,13 @@ export function MonthYearFilter<TData>({ table }: MonthYearFilterProps<TData>) {
   ];
 
   // Get the current filter values
-  // const dateFilter = (table.getColumn("date")?.getFilterValue() as {
-  //   month: string;
-  //   year: string;
-  // }) || { month: "all", year: "all" };
   const dateFilter = (table.getColumn("date")?.getFilterValue() as {
     month: string;
-  }) || { month: "all" };
+    year: string;
+  }) || { month: "all", year: "all" };
+  // const dateFilter = (table.getColumn("date")?.getFilterValue() as {
+  //   month: string;
+  // }) || { month: "all" };
 
   return (
     <DropdownMenu>
@@ -105,7 +108,7 @@ export function MonthYearFilter<TData>({ table }: MonthYearFilterProps<TData>) {
           </DropdownMenuSub>
         </DropdownMenuGroup>
 
-        {/* <DropdownMenuSeparator />
+        <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
           <DropdownMenuSub>
@@ -136,7 +139,7 @@ export function MonthYearFilter<TData>({ table }: MonthYearFilterProps<TData>) {
               </DropdownMenuRadioGroup>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
-        </DropdownMenuGroup> */}
+        </DropdownMenuGroup>
 
         <DropdownMenuSeparator />
 
@@ -144,7 +147,7 @@ export function MonthYearFilter<TData>({ table }: MonthYearFilterProps<TData>) {
           onClick={() => {
             table.getColumn("date")?.setFilterValue({
               month: "all",
-              // year: "all",
+              year: "all",
             });
           }}
         >

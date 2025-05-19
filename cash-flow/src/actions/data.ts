@@ -2,14 +2,16 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "./auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 const formatNumber = (value: number): string => {
   return new Intl.NumberFormat("en-US").format(value);
 };
 
-const mockDebtData = [
-  { year: 2025, debt: 5433 },
-  { year: 2024, debt: 4532 },
+const mockCashData = [
+  { year: 2025, cash: 5433 },
+  { year: 2024, cash: 4532 },
 ];
 
 const monthNumberToName = {
@@ -71,8 +73,8 @@ export const getExpenseData = async () => {
   return data || [];
 };
 
-export const getMonthlyData = async () => {
-  const year = new Date().getFullYear();
+export const getMonthlyData = async (year?: number) => {
+  const targetYear = year || new Date().getFullYear();
 
   const supabase = await createClient();
   const user = await getCurrentUser();
@@ -81,7 +83,7 @@ export const getMonthlyData = async () => {
     .from("monthly_summary")
     .select("month, profit, revenue, expenses")
     .eq("user_id", user.id)
-    .eq("year", year)
+    .eq("year", targetYear)
     .order("month", { ascending: true });
 
   if (error) {
@@ -225,14 +227,49 @@ export const getYtdData = async () => {
 };
 
 export const getDebtData = async () => {
-  const currentYearDebt = mockDebtData[0].debt;
-  const previousYearDebt = mockDebtData[1].debt;
+  const currentYearDebt = mockCashData[0].cash;
+  const previousYearDebt = mockCashData[1].cash;
   const growthRate =
     ((currentYearDebt - previousYearDebt) / previousYearDebt) * 100;
   const growthRatePercentage = parseInt(growthRate.toFixed(2));
 
   return {
-    debt: formatNumber(currentYearDebt),
+    cash: formatNumber(currentYearDebt),
     growthRate: growthRatePercentage,
+  };
+};
+
+export const createBooking = async (formData: FormData) => {
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  const date = new Date();
+
+  const { data, error } = await supabase.from("finance").insert({
+    user_id: user.id,
+    type: formData.get("type"),
+    date: date.toISOString(),
+    source: formData.get("source"),
+    category: formData.get("category"),
+    amount: formData.get("amount"),
+    note: formData.get("note"),
+  });
+
+  if (error) {
+    console.error(error);
+    return {
+      success: false,
+      data: data,
+      error: error,
+    };
+  }
+
+  revalidatePath("/dashboard/revenue");
+  revalidatePath("/dashboard/expenses");
+
+  return {
+    success: true,
+    data: data,
+    error: error,
   };
 };

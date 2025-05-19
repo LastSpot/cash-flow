@@ -10,23 +10,23 @@ import {
 } from "@/components/ui/card";
 import { getDebtData } from "@/actions/data";
 
-export async function Debt() {
+export async function CashCard() {
   const debtData = await getDebtData();
 
   return (
     <Card className="@container/card">
       <CardHeader className="relative">
-        <CardDescription>Debt</CardDescription>
+        <CardDescription>Cash</CardDescription>
         <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-          ${debtData.debt}
+          ${debtData.cash}
         </CardTitle>
         <div className="absolute right-4 top-4">
           {debtData.growthRate !== 0 && (
             <Badge variant="outline" className="flex gap-1 rounded-lg text-xs">
               {debtData.growthRate > 0 ? (
-                <TrendingUpIcon className="size-3" />
+                <TrendingUpIcon className="size-3 text-green-500" />
               ) : (
-                <TrendingDownIcon className="size-3" />
+                <TrendingDownIcon className="size-3 text-red-500" />
               )}
               {debtData.growthRate}%
             </Badge>

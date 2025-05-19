@@ -1,7 +1,7 @@
 import { YtdRevenue } from "@/components/Dashboard/Cards/ytd-revenue";
 import { YtdExpense } from "@/components/Dashboard/Cards/ytd-expense";
 import { YtdProfit } from "@/components/Dashboard/Cards/ytd-profit";
-import { Debt } from "@/components/Dashboard/Cards/debt";
+import { CashCard } from "@/components/Dashboard/Cards/cash-card";
 import { getYtdData } from "@/actions/data";
 
 export async function SummaryCards() {
@@ -28,7 +28,7 @@ export async function SummaryCards() {
       {/* YTD Profit */}
       <YtdProfit data={profitData} />
       {/* Debt */}
-      <Debt />
+      <CashCard />
     </div>
   );
 }

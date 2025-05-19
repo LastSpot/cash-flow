@@ -71,11 +71,11 @@ export function NavMain() {
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
-                  {/* Debt */}
+                  {/* Assets */}
                   <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
-                      <Link href="/dashboard/debt">
-                        <span>Debt</span>
+                      <Link href="/dashboard/assets">
+                        <span>Assets</span>
                       </Link>
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
