@@ -243,12 +243,25 @@ export const createBooking = async (formData: FormData) => {
   const supabase = await createClient();
   const user = await getCurrentUser();
 
-  const date = new Date();
+  if (
+    !formData.get("date") ||
+    !formData.get("type") ||
+    !formData.get("source") ||
+    !formData.get("category") ||
+    !formData.get("amount")
+  ) {
+    return {
+      success: false,
+      error: "Please fill in all fields",
+    };
+  }
+
+  console.log(formData);
 
   const { data, error } = await supabase.from("finance").insert({
     user_id: user.id,
     type: formData.get("type"),
-    date: date.toISOString(),
+    date: formData.get("date"),
     source: formData.get("source"),
     category: formData.get("category"),
     amount: formData.get("amount"),
