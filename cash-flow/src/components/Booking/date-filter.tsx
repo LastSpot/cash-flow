@@ -19,20 +19,18 @@ import {
   DropdownMenuRadioItem,
 } from "@/components/ui/dropdown-menu";
 
-interface MonthYearFilterProps<TData> {
+interface MonthYearFilterProps<TData extends { date: string }> {
   table: Table<TData>;
   data: TData[];
 }
 
-export function MonthYearFilter<TData>({
+export function MonthYearFilter<TData extends { date: string }>({
   table,
   data,
 }: MonthYearFilterProps<TData>) {
   // Extract unique years from data
   const years = Array.from(
-    new Set(
-      (data as any[]).map((item) => item.date?.split("-")[0]).filter(Boolean)
-    )
+    new Set(data.map((item) => item.date.split("-")[0]).filter(Boolean))
   )
     .sort()
     .reverse();
