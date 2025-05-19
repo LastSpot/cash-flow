@@ -36,12 +36,12 @@ import { MonthYearFilter } from "./date-filter";
 import { CategoryFilter } from "./category-filter";
 
 // Component interface
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { date: string }, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { date: string }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {

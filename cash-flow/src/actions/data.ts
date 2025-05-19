@@ -3,7 +3,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "./auth";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 const formatNumber = (value: number): string => {
   return new Intl.NumberFormat("en-US").format(value);
