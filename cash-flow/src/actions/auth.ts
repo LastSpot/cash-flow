@@ -69,7 +69,7 @@ export async function signin(formData: FormData) {
   });
 
   if (!validatedFields.success) {
-    throw new Error("Missing fields. Failed to Login.");
+    return "Missing fields. Failed to Login.";
   }
 
   const { email, password } = validatedFields.data;
@@ -80,10 +80,11 @@ export async function signin(formData: FormData) {
 
   const { error } = await supabase.auth.signInWithPassword(data);
   if (error) {
-    throw new Error(error.message);
+    return error.message;
   }
 
   revalidatePath("/dashboard");
+  return null;
 }
 
 export async function signup(formData: FormData) {

@@ -72,13 +72,13 @@ export function NavMain() {
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                   {/* Assets */}
-                  {/* <SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
                       <Link href="/dashboard/assets">
                         <span>Assets</span>
                       </Link>
                     </SidebarMenuSubButton>
-                  </SidebarMenuSubItem> */}
+                  </SidebarMenuSubItem>
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>
