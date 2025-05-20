@@ -106,7 +106,7 @@ export default function Home() {
         <ModeToggle />
       </main>
       <footer className="flex items-center justify-center">
-        <div className="p-4">@ 2025 Cash Flow</div>
+        <div className="p-4">@ 2025 BlackBook</div>
       </footer>
     </div>
   );
