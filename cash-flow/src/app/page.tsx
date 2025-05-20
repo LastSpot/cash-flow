@@ -1,5 +1,10 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import OPT from "@/components/Home/opt";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "BlackBook",
+};
 
 export default function Home() {
   return (
