@@ -255,8 +255,6 @@ export const createBooking = async (formData: FormData) => {
     };
   }
 
-  console.log(formData);
-
   const { data, error } = await supabase.from("finance").insert({
     user_id: user.id,
     type: formData.get("type"),

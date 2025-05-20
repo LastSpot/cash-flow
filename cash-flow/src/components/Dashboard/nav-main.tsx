@@ -4,8 +4,8 @@ import {
   LayoutDashboardIcon,
   NotebookText,
   ChevronRight,
-  Building,
-  Settings2,
+  // Building,
+  // Settings2,
 } from "lucide-react";
 
 import {
@@ -72,35 +72,35 @@ export function NavMain() {
                     </SidebarMenuSubButton>
                   </SidebarMenuSubItem>
                   {/* Assets */}
-                  <SidebarMenuSubItem>
+                  {/* <SidebarMenuSubItem>
                     <SidebarMenuSubButton asChild>
                       <Link href="/dashboard/assets">
                         <span>Assets</span>
                       </Link>
                     </SidebarMenuSubButton>
-                  </SidebarMenuSubItem>
+                  </SidebarMenuSubItem> */}
                 </SidebarMenuSub>
               </CollapsibleContent>
             </SidebarMenuItem>
           </Collapsible>
           {/* Members */}
-          <Link href="/dashboard/members">
+          {/* <Link href="/dashboard/members">
             <SidebarMenuItem>
               <SidebarMenuButton tooltip="Members">
                 <Building />
                 <span>Members</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          </Link>
+          </Link> */}
           {/* Settings */}
-          <Link href="/dashboard/settings">
+          {/* <Link href="/dashboard/settings">
             <SidebarMenuItem>
               <SidebarMenuButton tooltip="Settings">
                 <Settings2 />
                 <span>Settings</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
-          </Link>
+          </Link> */}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
