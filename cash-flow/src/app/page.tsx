@@ -1,5 +1,6 @@
 import { ModeToggle } from "@/components/mode-toggle";
-import OPT from "@/components/Home/opt";
+// import OPT from "@/components/Home/opt";
+import Lock from "@/components/Home/drawer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -107,7 +108,8 @@ export default function Home() {
     // </div>
     <div className="grid grid-rows-[1fr_auto] min-h-screen">
       <main className="flex flex-col items-center justify-center gap-4">
-        <OPT />
+        {/* <OPT /> */}
+        <Lock />
         <ModeToggle />
       </main>
       <footer className="flex items-center justify-center">
