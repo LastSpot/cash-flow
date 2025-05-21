@@ -283,3 +283,93 @@ export const createBooking = async (formData: FormData) => {
     error: error,
   };
 };
+
+export const getBookingById = async (id: string) => {
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  const { data, error } = await supabase
+    .from("finance")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return data;
+};
+
+export const updateBooking = async (id: string, formData: FormData) => {
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  if (
+    !formData.get("date") ||
+    !formData.get("type") ||
+    !formData.get("source") ||
+    !formData.get("category") ||
+    !formData.get("amount")
+  ) {
+    return {
+      success: false,
+      error: "Please fill in all fields",
+    };
+  }
+
+  const { data, error } = await supabase
+    .from("finance")
+    .update({
+      type: formData.get("type"),
+      date: formData.get("date"),
+      source: formData.get("source"),
+      category: formData.get("category"),
+      amount: formData.get("amount"),
+      note: formData.get("note"),
+    })
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+    return {
+      success: false,
+      data: data,
+      error: error,
+    };
+  }
+
+  revalidatePath("/dashboard/revenue");
+  revalidatePath("/dashboard/expenses");
+
+  return {
+    success: true,
+    data: data,
+    error: error,
+  };
+};
+
+export const deleteBooking = async (id: string) => {
+  const supabase = await createClient();
+  const user = await getCurrentUser();
+
+  const { data, error } = await supabase
+    .from("finance")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.id);
+
+  if (error) {
+    console.error(error);
+  }
+
+  revalidatePath("/dashboard/revenue");
+  revalidatePath("/dashboard/expenses");
+
+  return {
+    success: true,
+    data: data,
+    error: error,
+  };
+};
