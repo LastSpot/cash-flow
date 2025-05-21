@@ -131,13 +131,17 @@ export const columns: ColumnDef<Data>[] = [
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <Link href={`/dashboard/revenue/edit/${item.id}`}>
+            <Link href={`/dashboard/edit/${item.id}`}>
               <DropdownMenuItem>Edit</DropdownMenuItem>
             </Link>
-            <Link href={`/dashboard/revenue/${item.id}`}>
+            {/* <Link href={`/dashboard/edit/${item.id}`}>
               <DropdownMenuItem>View details</DropdownMenuItem>
+            </Link> */}
+            <Link href={`/dashboard/delete/${item.id}`}>
+              <DropdownMenuItem className="text-red-500">
+                Delete
+              </DropdownMenuItem>
             </Link>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

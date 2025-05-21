@@ -45,7 +45,7 @@ export function RevenueExpenseChart({
         <CardTitle>Overview Chart</CardTitle>
         <CardDescription>January - December {currentYear}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1">
+      <CardContent className="flex-1 pb-1">
         <div className="w-full h-full">
           <ChartContainer config={chartConfig} className="!aspect-auto h-full">
             <LineChart
@@ -54,6 +54,7 @@ export function RevenueExpenseChart({
               margin={{
                 left: 40,
                 right: 20,
+                top: 40,
               }}
             >
               <CartesianGrid vertical={false} />

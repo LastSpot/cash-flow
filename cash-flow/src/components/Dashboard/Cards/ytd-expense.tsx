@@ -19,7 +19,7 @@ export async function YtdExpense({
       <CardHeader className="relative">
         <CardDescription>YTD Expense</CardDescription>
         <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-          ${data.expenses}
+          ${data.expenses.toLocaleString("en-US")}
         </CardTitle>
         <div className="absolute right-4 top-4">
           {data.growthRate !== 0 && (
